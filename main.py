@@ -6,6 +6,7 @@ Ceci est un script temporaire.
 """
 
 import math
+import threading
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from random import uniform
@@ -98,7 +99,6 @@ entry = gaussian_activity((10., 10.), (25., 25.), 2.)
 
 
 def update_neuron(x):
-    global array
     (x, y) = x
     # excitation term
     exc_term = 0.
@@ -106,7 +106,7 @@ def update_neuron(x):
         for xi in range(size):
             if xi != x or yi != y:
                 exc_term += array[yi][xi]*difference_of_gaussian( euclidean_dist((x, y), (xi, yi)) )
-    array[y][x] += dt*(-array[y][x] + exc_term + entry[y][x]) / tau
+    return array[y][x] + dt*(-array[y][x] + exc_term + entry[y][x]) / tau
 
     # avoid outliers
     """if array[y][x] > 1:
@@ -117,10 +117,21 @@ def update_neuron(x):
 
 def synchronous_run():
     global array
+    new_array = [[None for i in range(size)] for j in range(size)]
     for y in range(size):
         for x in range(size):
-            update_neuron((x, y))
+            new_array[y][x] = update_neuron((x, y))
+    array = new_array
     normalize(array)
+
+
+"""class Asynchronous_run(threading.Thread):
+    def __init__(self, elems):
+        super.__init__(self)
+        self._elems = elems
+
+    def run(self):"""
+
 
 
 if __name__ == "__main__":
