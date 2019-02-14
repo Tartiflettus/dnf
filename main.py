@@ -21,28 +21,30 @@ def init_array():
 def normalize(array):
     min_array = min(map(min, array))
     max_array = max(map(max, array))
+    #print("min: ", min_array)
+    #print("max: ", max_array)
 
     for y in range(size):
         for x in range(size):
             array[y][x] = (array[y][x] - min_array) / (max_array - min_array)
 
-    """for y in range(size):
+    for y in range(size):
         for x in range(size):
             if array[y][x] < 0 or array[y][x] > 1:
-                print("normalize ERROR")"""
+                print("normalize ERROR")
 
 
 # normalized euclidean distance
 def euclidean_dist(x, y):
     (x1, y1) = x
     (x2, y2) = y
-    x1 /= size
+    """x1 /= size
     x2 /= size
     y1 /= size
-    y2 /= size
+    y2 /= size"""
     ans = math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
-    #if ans > 2:
-    #    print("euclidean_dist ERROR")
+    """if ans > math.sqrt(2):
+        print("euclidean_dist ERROR")"""
     return ans
 
 
@@ -97,7 +99,6 @@ entry = gaussian_activity((10., 10.), (25., 25.), 2.)
 
 def update_neuron(x):
     global array
-    global entry
     (x, y) = x
     # excitation term
     exc_term = 0.
@@ -120,7 +121,7 @@ def synchronous_run():
         for x in range(size):
             update_neuron((x, y))
     normalize(array)
-            
+
 
 if __name__ == "__main__":
     array = init_array()
@@ -129,24 +130,30 @@ if __name__ == "__main__":
              for x in range(size)] for y in range(size)]
     fig = plt.figure()
     plt.subplot(1, 3, 1)
+    plt.title("neurons")
     im = plt.imshow(array, cmap='hot', interpolation='nearest', animated=True)
     plt.subplot(1, 3, 2)
+    plt.title("input")
     im_entry = plt.imshow(entry, cmap='hot', interpolation='nearest', animated=True)
     plt.subplot(1, 3, 3)
+    plt.title("gaussian diff")
     im_diff = plt.imshow(diff, cmap='hot', interpolation='nearest', animated=True)
 
     index = 0
+
 
     def updatefig(*args):
         global array
         global entry
         global index
         synchronous_run()
+        #array = init_array()
         im.set_array(array)
         im_entry.set_array(entry)
         im_diff.set_array(diff)
         print(index)
         index += 1
+
         return im, im_entry, im_diff
     
     ani = animation.FuncAnimation(fig, updatefig, interval=50, blit=True)
