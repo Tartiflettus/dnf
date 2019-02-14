@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from random import uniform
 
-size = 25
+size = 35
 
 
 def init_array():
@@ -39,10 +39,10 @@ def normalize(array):
 def euclidean_dist(x, y):
     (x1, y1) = x
     (x2, y2) = y
-    """x1 /= size
+    x1 /= size
     x2 /= size
     y1 /= size
-    y2 /= size"""
+    y2 /= size
     ans = math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
     """if ans > math.sqrt(2):
         print("euclidean_dist ERROR")"""
@@ -69,24 +69,24 @@ def gaussian_activity(a, b, sigma):
     activity = [[0 for j in range(size)] for i in range(size)]
     (x1, y1) = a
     (x2, y2) = b
-    """x1 /= size
+    x1 /= size
     x2 /= size
     y1 /= size
-    y2 /= size"""
+    y2 /= size
     # first gaussian
     for y in range(size):
-        yn = y #/ size
+        yn = y / size
         for x in range(size):
-            xn = x #/ size
+            xn = x / size
             first_term = (xn-x1)*(xn-x1) / (2.*sigma*sigma)
             second_term = (yn-y1)*(yn-y1) / (2.*sigma*sigma)
             activity[y][x] = math.exp(-(first_term + second_term))
 
     # second gaussian
     for y in range(size):
-        yn = y #/ size
+        yn = y / size
         for x in range(size):
-            xn = x #/ size
+            xn = x / size
             first_term = (xn-x2)*(xn-x2) / (2.*sigma*sigma)
             second_term = (yn-y2)*(yn-y2) / (2.*sigma*sigma)
             activity[y][x] += math.exp(-(first_term + second_term))
@@ -136,8 +136,8 @@ def synchronous_run():
 
 if __name__ == "__main__":
     array = init_array()
-    entry = gaussian_activity((5, 5), (20, 20), 1.5)
-    diff = [[difference_of_gaussian(euclidean_dist((12, 12), (x, y)))
+    entry = gaussian_activity((10, 10), (25, 25), 0.1)
+    diff = [[difference_of_gaussian(euclidean_dist((17, 17), (x, y)))
              for x in range(size)] for y in range(size)]
     normalize(diff)
     fig = plt.figure()
