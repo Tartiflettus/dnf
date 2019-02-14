@@ -69,24 +69,24 @@ def gaussian_activity(a, b, sigma):
     activity = [[0 for j in range(size)] for i in range(size)]
     (x1, y1) = a
     (x2, y2) = b
-    x1 /= size
+    """x1 /= size
     x2 /= size
     y1 /= size
-    y2 /= size
+    y2 /= size"""
     # first gaussian
     for y in range(size):
-        yn = y / size
+        yn = y #/ size
         for x in range(size):
-            xn = x / size
+            xn = x #/ size
             first_term = (xn-x1)*(xn-x1) / (2.*sigma*sigma)
             second_term = (yn-y1)*(yn-y1) / (2.*sigma*sigma)
             activity[y][x] = math.exp(-(first_term + second_term))
 
     # second gaussian
     for y in range(size):
-        yn = y / size
+        yn = y #/ size
         for x in range(size):
-            xn = x / size
+            xn = x #/ size
             first_term = (xn-x2)*(xn-x2) / (2.*sigma*sigma)
             second_term = (yn-y2)*(yn-y2) / (2.*sigma*sigma)
             activity[y][x] += math.exp(-(first_term + second_term))
@@ -136,9 +136,10 @@ def synchronous_run():
 
 if __name__ == "__main__":
     array = init_array()
-    entry = gaussian_activity((5, 5), (20, 20), 0.08)
+    entry = gaussian_activity((5, 5), (20, 20), 1.5)
     diff = [[difference_of_gaussian(euclidean_dist((12, 12), (x, y)))
              for x in range(size)] for y in range(size)]
+    normalize(diff)
     fig = plt.figure()
     plt.subplot(1, 3, 1)
     plt.title("neurons")
