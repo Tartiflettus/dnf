@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from random import uniform
 
-size = 35
+size = 25
 
 
 def init_array():
@@ -136,8 +136,8 @@ def synchronous_run():
 
 if __name__ == "__main__":
     array = init_array()
-    entry = gaussian_activity((10, 10), (25, 25), 0.1)
-    diff = [[difference_of_gaussian(euclidean_dist((17, 17), (x, y)))
+    entry = gaussian_activity((5, 5), (20, 20), 0.05)
+    diff = [[difference_of_gaussian(euclidean_dist((12, 12), (x, y)))
              for x in range(size)] for y in range(size)]
     normalize(diff)
     fig = plt.figure()
