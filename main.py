@@ -61,8 +61,10 @@ tau = 0.64
 
 
 def difference_of_gaussian(distance):
-    return cexc*math.exp(-distance*distance/(2.*sigmaexc*sigmaexc))
-    - cinh*math.exp(-distance*distance / (2.*sigmainh*sigmainh))
+    var = cexc*math.exp(-distance*distance / (2.*sigmaexc*sigmaexc)) - cinh*math.exp(-distance*distance / (2.*sigmainh*sigmainh))
+    """if var < 0:
+        print(var)"""
+    return var
 
 
 def gaussian_activity(a, b, sigma):
@@ -106,6 +108,7 @@ def update_neuron(x):
         for xi in range(size):
             if xi != x or yi != y:
                 exc_term += array[yi][xi]*difference_of_gaussian( euclidean_dist((x, y), (xi, yi)) )
+    #print(exc_term)
     return array[y][x] + dt*(-array[y][x] + exc_term + entry[y][x]) / tau
 
     # avoid outliers
