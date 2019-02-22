@@ -63,7 +63,7 @@ tau = 0.64
 def difference_of_gaussian(distance):
     var = cexc*math.exp(-distance*distance / (2.*sigmaexc*sigmaexc)) - \
           cinh*math.exp(-distance*distance / (2.*sigmainh*sigmainh))
-    """if var < 0:
+    """if var > 0:
         print(var)"""
     return var
 
