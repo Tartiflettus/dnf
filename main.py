@@ -144,7 +144,7 @@ if __name__ == "__main__":
     entry = gaussian_activity((20, 5), (20, 20), 0.1)
     diff = [[difference_of_gaussian(euclidean_dist((12, 12), (x, y)))
              for x in range(size)] for y in range(size)]
-    print(min(map(min, diff)))
+    #print(min(map(min, diff)))
     #normalize(diff)
     fig = plt.figure()
     plt.subplot(1, 3, 1)
