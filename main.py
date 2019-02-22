@@ -114,10 +114,10 @@ def update_neuron(x):
     return array[y][x] + dt*(-array[y][x] + exc_term + entry[y][x]) / tau
 
     # avoid outliers
-    """if array[y][x] > 1:
+    if array[y][x] > 1:
         array[y][x] = 1.
     elif array[y][x] < 0:
-        array[y][x] = 0."""
+        array[y][x] = 0.
 
 
 def synchronous_run():
@@ -127,7 +127,7 @@ def synchronous_run():
         for x in range(size):
             new_array[y][x] = update_neuron((x, y))
     array = new_array
-    normalize(array)
+    #normalize(array)
 
 
 """class Asynchronous_run(threading.Thread):
