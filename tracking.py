@@ -33,7 +33,7 @@ def reduce(a, shape):
 def selectByColor(frame):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     # define range of blue color in HSV
-    lower_blue = np.array([80, 0, 0])
+    lower_blue = np.array([90, 0, 0])
     upper_blue = np.array([140, 255, 255])
     # Threshold the HSV image to get only blue colors
     mask = cv2.inRange(hsv, lower_blue, upper_blue)
@@ -60,13 +60,23 @@ def findCenter(modele):
 
 def motorControl(center):
     x, y = center
-    ct.move(x, y)
+    center_x, center_y = size[0] // 2, size[1] // 2
+    gradient_x, gradient_y = x - center_x, y - center_y
+
+    if gradient_x > 10:
+        gradient_x = 10
+    if gradient_y > 10:
+        gradient_y = 10
+    if gradient_x < -10:
+        gradient_x = -10
+    if gradient_y < -10:
+        gradient_y = -10
+    ct.move(gradient_x, gradient_y)
 
 
 def track(frame, modele):
     input = selectByColor(frame)
     # tester selectByColor
-    cv2.imshow("img", input)
     modele.input = input
     modele.update_map()
     cv2.imshow("Input", modele.input)
