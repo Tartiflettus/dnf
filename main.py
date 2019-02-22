@@ -61,7 +61,8 @@ tau = 0.64
 
 
 def difference_of_gaussian(distance):
-    var = cexc*math.exp(-distance*distance / (2.*sigmaexc*sigmaexc)) - cinh*math.exp(-distance*distance / (2.*sigmainh*sigmainh))
+    var = cexc*math.exp(-distance*distance / (2.*sigmaexc*sigmaexc)) - \
+          cinh*math.exp(-distance*distance / (2.*sigmainh*sigmainh))
     """if var < 0:
         print(var)"""
     return var
@@ -108,7 +109,8 @@ def update_neuron(x):
         for xi in range(size):
             if xi != x or yi != y:
                 exc_term += array[yi][xi]*difference_of_gaussian( euclidean_dist((x, y), (xi, yi)) )
-    #print(exc_term)
+    if exc_term > 0:
+        print(exc_term)
     return array[y][x] + dt*(-array[y][x] + exc_term + entry[y][x]) / tau
 
     # avoid outliers
@@ -139,10 +141,11 @@ def synchronous_run():
 
 if __name__ == "__main__":
     array = init_array()
-    entry = gaussian_activity((5, 5), (20, 20), 0.05)
+    entry = gaussian_activity((20, 5), (20, 20), 0.1)
     diff = [[difference_of_gaussian(euclidean_dist((12, 12), (x, y)))
              for x in range(size)] for y in range(size)]
-    normalize(diff)
+    print(min(map(min, diff)))
+    #normalize(diff)
     fig = plt.figure()
     plt.subplot(1, 3, 1)
     plt.title("neurons")
